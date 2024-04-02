@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+
+
+  db:
+    image: "gigachad-database"
+    ports:
+      - 5432:5432
+    container_name: gigachad-db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d gigachad -U admin" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - "/Volumes/gigachad-pgdata:/var/lib/postgresql/data"
+
+
+  backend:
+    image: "gigachad-backend"
+    restart: always
+    ports:
+      - 8000:8000
+    container_name: gigachad-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - "db:database"
+
+
+  # frontend:
