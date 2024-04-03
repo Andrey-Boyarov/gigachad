@@ -8,9 +8,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER = postgres
-      - POSTGRESS_PASSWORD = root
-      - POSTGRES_DB = gigachad
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=gigachad
+  
+    
     networks:
       - backend-network
 
@@ -22,18 +24,16 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    command: uvicorn main:app --host 0.0.0.0
     ports:
-      - 8001:8000
+      - 8000:8000
     container_name: gigachad-backend
+    
     depends_on:
       - db
     environment:
-      - DATABASE-URL = postgresql://postgres:root@db:5432/gigachad
+      - DATABASE-URL=postgresql://postgres:root@db:5432/gigachad
     networks:
       - backend-network
-    extra_hosts:
-      - "docker.internal:host-gateway"
 
 
 networks:

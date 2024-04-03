@@ -2,6 +2,7 @@ from typing import Annotated
 from fastapi import Depends, FastAPI
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
+
 import psycopg2
 import uvicorn
 import time
@@ -49,5 +50,6 @@ async def get_users():
     cur.execute("select * from users")
     return cur.fetchall()
 
-
-uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    # print(os.getenv('DATABASE-URL'))
+    uvicorn.run(app, host="0.0.0.0", port=8000)
